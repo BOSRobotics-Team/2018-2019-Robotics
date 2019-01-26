@@ -78,11 +78,24 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    double xSpeed=Controller.getRawAxis(1)*-1;
-    double zRotation=Controller.getRawAxis(4);
-    
-    Drive.arcadeDrive(Math.pow(xSpeed, 3), Math.pow(zRotation, 3)); //is ^3 to make it easier to accelerate
+    double leftStick=Controller.getRawAxis(1)*-1;
+    double rightStick=Controller.getRawAxis(4);
+    double xSpeed=Math.pow(leftStick, 2);
+    double zRotation=Math.pow(zRotation, 2)
 
+    if(leftStick < 0){
+      Drive.arcadeDrive(-xSpeed, zRotation);
+    }
+    if(rightStick < 0){
+      Drive.arcadeDrive(xSpeed, -zRotation);
+    }
+    if(leftStick < 0 && rightStick < 0){
+      Drive.arcadeDrive(-xSpeed, -zRotation);
+    }
+    else{
+      Drive.arcadeDrive(xSpeed, zRotation);
+    }
+    
     boolean SwingUp = Controller.getRawButtonPressed(4);
 
     if(SwingUp==true){
